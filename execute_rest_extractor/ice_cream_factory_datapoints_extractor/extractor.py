@@ -9,6 +9,7 @@ from concurrent.futures import as_completed
 from concurrent.futures import ThreadPoolExecutor
 from threading import Event
 from typing import List
+import dotenv
 
 from cognite.client import CogniteClient
 from cognite.client.data_classes import TimeSeries
@@ -155,6 +156,9 @@ def main(config_file_path: str = "extractor_config.yaml") -> None:
     """
     Main entrypoint.
     """
+
+    dotenv.load_dotenv = lambda: ""
+
     with Extractor(
         name="datapoints_rest_extractor",
         description="An extractor that ingest datapoints from the Ice Cream Factory API to CDF clean",
