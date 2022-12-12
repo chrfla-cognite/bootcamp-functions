@@ -10,7 +10,6 @@ from concurrent.futures import ThreadPoolExecutor
 from threading import Event
 from typing import List
 
-import dotenv
 from cognite.client import CogniteClient
 from cognite.client.data_classes import TimeSeries
 from cognite.extractorutils import Extractor
@@ -156,12 +155,6 @@ def main(config_file_path: str = "extractor_config.yaml") -> None:
     """
     Main entrypoint.
     """
-
-    def _find_dotenv():
-        return ""
-
-    setattr(dotenv.main, "find_dotenv", _find_dotenv)
-    dotenv.find_dotenv = _find_dotenv
 
     with Extractor(
         name="datapoints_rest_extractor",
