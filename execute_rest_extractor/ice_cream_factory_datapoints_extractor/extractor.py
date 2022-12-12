@@ -11,7 +11,6 @@ from threading import Event
 from typing import List
 
 import dotenv
-import wrapt
 from cognite.client import CogniteClient
 from cognite.client.data_classes import TimeSeries
 from cognite.extractorutils import Extractor
@@ -24,15 +23,12 @@ from .datapoints_backfiller import Backfiller
 from .datapoints_streamer import Streamer
 from .ice_cream_factory_api import IceCreamFactoryAPI
 
-
-@wrapt.patch_function_wrapper(dotenv.main, "find_dotenv")
-def _find_dotenv(*args, **kwargs):
+def _find_dotenv():
     return ""
 
 
-@wrapt.patch_function_wrapper(dotenv, "find_dotenv")
-def _find_dotenv_v2(*args, **kwargs):
-    return ""
+setattr(dotenv, "find_dotenv", _find_dotenv)
+setattr(dotenv.main, "find_dotenv", _find_dotenv)
 
 
 def timeseries_updates(

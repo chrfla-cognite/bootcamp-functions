@@ -12,7 +12,6 @@ pandas = "*"
 pydantic = "*"
 ujson = "*"
 retry = "*"
-wrapt = "*"
 
 [tool.poetry.dev-dependencies]
 pytest = "*"
