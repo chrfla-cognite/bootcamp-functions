@@ -161,6 +161,7 @@ def main(config_file_path: str = "extractor_config.yaml") -> None:
         return ""
 
     setattr(dotenv.main, "find_dotenv", _find_dotenv)
+    dotenv.find_dotenv = _find_dotenv
 
     with Extractor(
         name="datapoints_rest_extractor",
