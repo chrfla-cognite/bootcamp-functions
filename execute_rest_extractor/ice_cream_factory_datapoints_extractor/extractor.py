@@ -30,7 +30,9 @@ def _find_dotenv(*args, **kwargs):
     return ""
 
 
-find_dotenv = _find_dotenv
+@wrapt.patch_function_wrapper(dotenv, "find_dotenv")
+def _find_dotenv_v2(*args, **kwargs):
+    return ""
 
 
 def timeseries_updates(
