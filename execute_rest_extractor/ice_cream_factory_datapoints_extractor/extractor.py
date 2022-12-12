@@ -7,10 +7,12 @@ import os
 import random
 from concurrent.futures import as_completed
 from concurrent.futures import ThreadPoolExecutor
+from pathlib import Path
 from threading import Event
 from typing import List
-import dotenv
 
+import dotenv
+import wrapt
 from cognite.client import CogniteClient
 from cognite.client.data_classes import TimeSeries
 from cognite.extractorutils import Extractor
@@ -22,6 +24,16 @@ from .config import IceCreamFactoryConfig
 from .datapoints_backfiller import Backfiller
 from .datapoints_streamer import Streamer
 from .ice_cream_factory_api import IceCreamFactoryAPI
+
+
+@wrapt.patch_function_wrapper(dotenv.main, "find_dotenv")
+def _find_dotenv(*args, **kwargs):
+    if "wwwroot" in str(Path(__file__).absolute()):
+        return ""
+    return ".env"
+
+
+find_dotenv = _find_dotenv
 
 
 def timeseries_updates(
@@ -157,8 +169,6 @@ def main(config_file_path: str = "extractor_config.yaml") -> None:
     Main entrypoint.
     """
 
-    import dotenv
-    dotenv.main.find_dotenv = lambda x: ""
     with Extractor(
         name="datapoints_rest_extractor",
         description="An extractor that ingest datapoints from the Ice Cream Factory API to CDF clean",
