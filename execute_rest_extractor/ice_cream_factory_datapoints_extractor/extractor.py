@@ -7,7 +7,6 @@ import os
 import random
 from concurrent.futures import as_completed
 from concurrent.futures import ThreadPoolExecutor
-from pathlib import Path
 from threading import Event
 from typing import List
 
@@ -28,9 +27,7 @@ from .ice_cream_factory_api import IceCreamFactoryAPI
 
 @wrapt.patch_function_wrapper(dotenv.main, "find_dotenv")
 def _find_dotenv(*args, **kwargs):
-    if "wwwroot" in str(Path(__file__).absolute()):
-        return ""
-    return ".env"
+    return ""
 
 
 find_dotenv = _find_dotenv
