@@ -157,8 +157,8 @@ def main(config_file_path: str = "extractor_config.yaml") -> None:
     Main entrypoint.
     """
 
+    import dotenv
     dotenv.load_dotenv = lambda: ""
-
     with Extractor(
         name="datapoints_rest_extractor",
         description="An extractor that ingest datapoints from the Ice Cream Factory API to CDF clean",
