@@ -23,13 +23,6 @@ from .datapoints_backfiller import Backfiller
 from .datapoints_streamer import Streamer
 from .ice_cream_factory_api import IceCreamFactoryAPI
 
-def _find_dotenv():
-    return ""
-
-
-setattr(dotenv, "find_dotenv", _find_dotenv)
-setattr(dotenv.main, "find_dotenv", _find_dotenv)
-
 
 def timeseries_updates(
     timeseries_list: List[TimeSeries], config: IceCreamFactoryConfig, client: CogniteClient
@@ -163,6 +156,11 @@ def main(config_file_path: str = "extractor_config.yaml") -> None:
     """
     Main entrypoint.
     """
+
+    def _find_dotenv():
+        return ""
+
+    setattr(dotenv.main, "find_dotenv", _find_dotenv)
 
     with Extractor(
         name="datapoints_rest_extractor",
