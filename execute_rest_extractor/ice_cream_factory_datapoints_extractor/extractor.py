@@ -158,7 +158,7 @@ def main(config_file_path: str = "extractor_config.yaml") -> None:
     """
 
     import dotenv
-    dotenv.find_dotenv = lambda: ""
+    dotenv.main.find_dotenv = lambda x: ""
     with Extractor(
         name="datapoints_rest_extractor",
         description="An extractor that ingest datapoints from the Ice Cream Factory API to CDF clean",
