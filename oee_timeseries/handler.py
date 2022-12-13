@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import random
 from concurrent.futures import Future
 from concurrent.futures import ThreadPoolExecutor
 from math import floor
@@ -12,6 +13,8 @@ import arrow
 import numpy as np
 from arrow import Arrow
 from cognite.client import CogniteClient
+from retry import retry
+
 from tools import discover_datapoints
 from tools import get_timeseries_for_site
 from tools import insert_datapoints
@@ -64,6 +67,7 @@ def handle(client: CogniteClient, data: Dict[str, Any]) -> None:
             f.result()
 
 
+@retry(tries=5, jitter=random.randint(5, 10), delay=random.randint(5, 15))
 def process_site(client, data_set, lookback_minutes, site, window):
     discovered_ts = get_timeseries_for_site(client, site)
     discovered_points = discover_datapoints(client, discovered_ts, window)
