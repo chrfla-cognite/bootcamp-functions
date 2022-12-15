@@ -32,7 +32,7 @@ def get_payload(collection: np.array, window: Tuple[Arrow, Arrow]):
 
 
 def get_state(client, db_name, table_name):
-    state = client.raw.rows.list(db_name, table_name, limit=None).to_pandas()
+    state = client.raw.rows.list(db_name, table_name, limit=None).to_pandas().dropna()
     return max(state["high"])
 
 
